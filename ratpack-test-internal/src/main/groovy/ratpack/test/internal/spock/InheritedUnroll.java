@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-description = "Integration with the RxJava library - https://github.com/ReactiveX/RxJava"
+package ratpack.test.internal.spock;
 
-apply from: "$rootDir/gradle/javaModule.gradle"
+import org.spockframework.runtime.extension.ExtensionAnnotation;
 
-ext.apiLinks = [
-  "http://reactivex.io/RxJava/javadoc/"
-]
+import java.lang.annotation.*;
 
-dependencies {
-  compile project(":ratpack-core")
-  compile commonDependencies.rxjava
-  compile("io.reactivex:rxjava-reactive-streams:1.0.1") {
-    exclude group: "io.reactivex", module: "rxjava"
-    exclude group: "org.reactivestreams", module: "reactive-streams"
-  }
+/**
+ * Annotation analogous in behavior to {@link spock.lang.Unroll}, but
+ * in addition to the original annotation, this annotation is inherited.
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Inherited
+@ExtensionAnnotation(InheritedUnrollExtension.class)
+public @interface InheritedUnroll {
+
+  String value() default "";
+
 }
